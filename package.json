@@ -1,12 +1,13 @@
 {
-    "name": "com.itisnotonlyme.nombre",
+    "name": "com.itisnotonlyme.octree",
     "version": "1.0.0",
-    "displayName": "Nombre Lindo",
-    "description": "Descripcion linda",
+    "displayName": "Octree",
+    "description": "",
     "unity": "2020.3",
     "keywords": [
-      "Key", 
-      "Words"
+      "Octree", 
+      "Datos",
+      "Disperso"
     ],
     "author": {
       "name": "Juan Ignacio Biancuzzo",

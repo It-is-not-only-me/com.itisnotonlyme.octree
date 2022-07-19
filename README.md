@@ -1,2 +1,3 @@
-# Unity-Packages
-Este repositorio va a tener todos los packages que vaya creando para crear mis juegos
+# Octree 
+---
+Es una estructura de datos dispersos, de esta forma se puede almacenar datos con mucha separacion entre si con la menor cantidad de memoria.
