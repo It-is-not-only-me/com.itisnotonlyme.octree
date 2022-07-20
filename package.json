@@ -1,13 +1,14 @@
 {
-    "name": "com.itisnotonlyme.octree",
+    "name": "com.itisnotonlyme.sparse-voxel-octree",
     "version": "1.0.0",
-    "displayName": "Octree",
+    "displayName": "Sparse voxel octree",
     "description": "",
     "unity": "2020.3",
     "keywords": [
       "Octree", 
       "Datos",
-      "Disperso"
+      "Disperso",
+      "Voxel"
     ],
     "author": {
       "name": "Juan Ignacio Biancuzzo",
