@@ -68,9 +68,13 @@ namespace ItIsNotOnlyMe.OctreeHeap
 
             int nuevoIndice = _nodos[indice].PosicionHijo(posicion, _nodos, indice);
             bool resultado = Insertar(valor, posicion, nuevoIndice, profundiadActual + 1);
+            _nodos[indice].SeSubdivide();
 
             if (_nodos[indice].TieneHijosIguales(valor, _nodos, indice))
+            {
                 _nodos[indice].Insertar(valor);
+                _nodos[indice].SeJunta();
+            }
 
             return resultado;
         }

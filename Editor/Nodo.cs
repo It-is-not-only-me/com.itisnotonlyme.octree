@@ -9,6 +9,7 @@ namespace ItIsNotOnlyMe.OctreeHeap
 
         private Vector3 _posicion, _extremoOpuesto;
         private float _ancho, _alto, _profundiad;
+        private int _subdivido;
 
         private TType _valor;
 
@@ -20,6 +21,7 @@ namespace ItIsNotOnlyMe.OctreeHeap
             _ancho = ancho;
             _alto = alto;
             _profundiad = profundidad;
+            _subdivido = false;
 
             _valor = valor;
         }
@@ -53,6 +55,16 @@ namespace ItIsNotOnlyMe.OctreeHeap
             foreach (int indiceActual in IndicesDeHijos(indice))
                 tieneHijosIguales &= valor.Equals(nodos[indiceActual]._valor);
             return tieneHijosIguales;
+        }
+
+        public void SeSubdivide()
+        {
+            _subdivido = 1;
+        }
+
+        public void SeJunta()
+        {
+            _subdivido = 0;
         }
 
         private int[] IndicesDeHijos(int indice)
