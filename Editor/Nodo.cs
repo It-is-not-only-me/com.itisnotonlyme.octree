@@ -21,7 +21,7 @@ namespace ItIsNotOnlyMe.OctreeHeap
             _ancho = ancho;
             _alto = alto;
             _profundiad = profundidad;
-            _subdivido = false;
+            _subdivido = 0;
 
             _valor = valor;
         }

@@ -12,7 +12,7 @@ namespace ItIsNotOnlyMe.OctreeHeap
         private readonly Nodo<TType>[] _nodos;
         private readonly int _profundidadNodos;
 
-        public Octree(Vector3 posicion, float ancho, float alto, float profundidad, int profundidadNodos) 
+        public Octree(Vector3 posicion, float ancho, float alto, float profundidad, int profundidadNodos)
         {
             _profundidadNodos = profundidadNodos;
 
@@ -77,6 +77,11 @@ namespace ItIsNotOnlyMe.OctreeHeap
             }
 
             return resultado;
+        }
+
+        public bool SeElimina(Vector3 posicion)
+        {
+            return Insertar(default(TType), posicion);
         }
     }
 }
