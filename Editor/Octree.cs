@@ -55,19 +55,24 @@ namespace ItIsNotOnlyMe.OctreeHeap
             return Insertar(valor, posicion, 0, 0);
         }
 
-        private bool Insertar(TType valor, Vector3 posicion, int index, int profundiadActual)
+        private bool Insertar(TType valor, Vector3 posicion, int indice, int profundiadActual)
         {
-            if (!_nodos[index].Contiene(posicion))
+            if (!_nodos[indice].Contiene(posicion))
                 return false;
 
             if (profundiadActual == _profundidadNodos)
             {
-                _nodos[index].Insertar(valor);
+                _nodos[indice].Insertar(valor);
                 return true;
             }
 
-            index = _nodos[index].PosicionHijo(posicion, _nodos, index);
-            return Insertar(valor, posicion, index, profundiadActual + 1);
+            int nuevoIndice = _nodos[indice].PosicionHijo(posicion, _nodos, indice);
+            bool resultado = Insertar(valor, posicion, nuevoIndice, profundiadActual + 1);
+
+            if (_nodos[indice].TieneHijosIguales(valor, _nodos, indice))
+                _nodos[indice].Insertar(valor);
+
+            return resultado;
         }
     }
 }

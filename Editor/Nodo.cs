@@ -47,6 +47,14 @@ namespace ItIsNotOnlyMe.OctreeHeap
             return indiceHijo;
         }
 
+        public bool TieneHijosIguales(TType valor, Nodo<TType>[] nodos, int indice) 
+        {
+            bool tieneHijosIguales = true;
+            foreach (int indiceActual in IndicesDeHijos(indice))
+                tieneHijosIguales &= valor.Equals(nodos[indiceActual]._valor);
+            return tieneHijosIguales;
+        }
+
         private int[] IndicesDeHijos(int indice)
         {
             int[] indices = new int[_cantidadHijos];
@@ -55,6 +63,6 @@ namespace ItIsNotOnlyMe.OctreeHeap
                 indices[i] = indice * _cantidadHijos + 1 + i;
 
             return indices;
-        } 
+        }
     }
 }
