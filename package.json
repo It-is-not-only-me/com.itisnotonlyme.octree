@@ -1,14 +1,13 @@
 {
-    "name": "com.itisnotonlyme.sparse-voxel-octree",
+    "name": "com.itisnotonlyme.octree-heap",
     "version": "1.0.0",
-    "displayName": "Sparse voxel octree",
-    "description": "",
+    "displayName": "Octree heap",
+    "description": "Un arbol con 8 hijos, con una profundidad determinada, y contigua en memoria",
     "unity": "2020.3",
     "keywords": [
       "Octree", 
       "Datos",
-      "Disperso",
-      "Voxel"
+      "Heap"
     ],
     "author": {
       "name": "Juan Ignacio Biancuzzo",

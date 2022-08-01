@@ -1,5 +1,5 @@
 {
-    "name": "com.itisnotonlyme.sparse-voxel-octree.Editor",
+    "name": "com.itisnotonlyme.octree-heap.Editor",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
