@@ -17,7 +17,7 @@ namespace ItIsNotOnlyMe.OctreeHeap
             _profundidad = profundidad;
 
             int cantidadDeNodos = 0;
-            for (int i = 0; i < _profundidad; i++)
+            for (int i = 0; i <= _profundidad; i++)
                 cantidadDeNodos += (int)Mathf.Pow(_cantidadHijos, i);
 
             _nodos = new Nodo<TType>[cantidadDeNodos];
@@ -28,6 +28,8 @@ namespace ItIsNotOnlyMe.OctreeHeap
         {
             if (profundidadActual > _profundidad)
                 return;
+
+            // algo de los indices esta mal, o la cnatidad de nodos esta mal
 
             int indiceActual = 0;
             int cantidadDeHijos = 1;

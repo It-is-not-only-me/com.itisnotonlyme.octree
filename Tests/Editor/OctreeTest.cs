@@ -13,17 +13,17 @@ public class OctreeTest
     private int _valorBase = 1;
 
     [Test]
-    public void Test01NoSeInsertaYTieneQueTenerSoloUnNodo()
+    public void Test01NoSeInsertaYTodosLosNodosEstanJuntos()
     {
         int profundidad = 3;
         Octree<PuntoPrueba> octree = new Octree<PuntoPrueba>(_posicion, _dimensiones, profundidad);
 
-        VisitanteCantidadDeNodosPrueba visitor = new VisitanteCantidadDeNodosPrueba();
+        VisitanteCantidadDeNodosSubdivididosPrueba visitor = new VisitanteCantidadDeNodosSubdivididosPrueba();
         octree.Visitar(visitor);
 
         int cantidadDeNodos = visitor.CantidadDeNodos;
 
-        Assert.AreEqual(1, cantidadDeNodos);
+        Assert.AreEqual(0, cantidadDeNodos);
     }
 
     [Test]
@@ -46,30 +46,30 @@ public class OctreeTest
         int profundidad = 0;
         Octree<PuntoPrueba> octree = new Octree<PuntoPrueba>(_posicion, _dimensiones, profundidad);
 
-        Vector3 oosicion = Vector3.one;
+        Vector3 posicion = Vector3.one;
         PuntoPrueba valor = new PuntoPrueba(_valorBase);
 
-        bool sePuedeInsertar = octree.Insertar(oosicion, valor);
+        bool sePuedeInsertar = octree.Insertar(posicion, valor);
         Assert.IsTrue(sePuedeInsertar);
     }
 
     [Test]
-    public void Test04SeInsertaUnElementoConUnArbolDeCeroDeProfundidadSoloTieneUnNodo()
+    public void Test04SeInsertaUnElementoConUnArbolDeCeroDeProfundidadNoTieneNodosSubidividos()
     {
         int profundidad = 0;
         Octree<PuntoPrueba> octree = new Octree<PuntoPrueba>(_posicion, _dimensiones, profundidad);
 
-        Vector3 oosicion = Vector3.one;
+        Vector3 posicion = Vector3.one;
         PuntoPrueba valor = new PuntoPrueba(_valorBase);
 
-        octree.Insertar(oosicion, valor);
+        octree.Insertar(posicion, valor);
 
-        VisitanteCantidadDeNodosPrueba visitor = new VisitanteCantidadDeNodosPrueba();
+        VisitanteCantidadDeNodosSubdivididosPrueba visitor = new VisitanteCantidadDeNodosSubdivididosPrueba();
         octree.Visitar(visitor);
 
         int cantidadDeNodos = visitor.CantidadDeNodos;
 
-        Assert.AreEqual(1, cantidadDeNodos);
+        Assert.AreEqual(0, cantidadDeNodos);
     }
 
     [Test]
@@ -83,12 +83,12 @@ public class OctreeTest
 
         octree.Insertar(posicion, valor);
 
-        VisitanteCantidadDeNodosPrueba visitor = new VisitanteCantidadDeNodosPrueba();
+        VisitanteCantidadDeNodosSubdivididosPrueba visitor = new VisitanteCantidadDeNodosSubdivididosPrueba();
         octree.Visitar(visitor);
 
         int cantidadDeNodos = visitor.CantidadDeNodos;
 
-        Assert.AreEqual(9, cantidadDeNodos);
+        Assert.AreEqual(1, cantidadDeNodos);
     }
 
     [Test]
@@ -111,12 +111,12 @@ public class OctreeTest
                     octree.Insertar(posicion, valor);
                 }
 
-        VisitanteCantidadDeNodosPrueba visitor = new VisitanteCantidadDeNodosPrueba();
+        VisitanteCantidadDeNodosSubdivididosPrueba visitor = new VisitanteCantidadDeNodosSubdivididosPrueba();
         octree.Visitar(visitor);
 
         int cantidadDeNodos = visitor.CantidadDeNodos;
 
-        Assert.AreEqual(1, cantidadDeNodos);
+        Assert.AreEqual(0, cantidadDeNodos);
     }
 
     [Test]
@@ -143,9 +143,8 @@ public class OctreeTest
         octree.Visitar(visitor);
 
         List<VisitanteValoresDeLosNodosPrueba.DatosPrueba> datos = visitor.Datos;
-        Assert.AreEqual(1, datos.Count);
-
         PuntoPrueba valorDelArbol = datos[0].Valor;
+
         Assert.AreEqual(0, valorDelArbol.CompareTo(new PuntoPrueba(_valorBase)));
     }
 
@@ -191,7 +190,7 @@ public class OctreeTest
     }
 
     [Test]
-    public void Test10SeInsertaYEliminaUnElementoDeUnArbolConVariasProfundidadesTieneSoloUnNodo()
+    public void Test10SeInsertaYEliminaUnElementoDeUnArbolConVariasProfundidadesNoTieneNodosSubdivididos()
     {
         int profundidad = 3;
         Octree<PuntoPrueba> octree = new Octree<PuntoPrueba>(_posicion, _dimensiones, profundidad);
@@ -202,12 +201,12 @@ public class OctreeTest
         octree.Insertar(posicion, valor);
         octree.Eliminar(posicion);
 
-        VisitanteCantidadDeNodosPrueba visitor = new VisitanteCantidadDeNodosPrueba();
+        VisitanteCantidadDeNodosSubdivididosPrueba visitor = new VisitanteCantidadDeNodosSubdivididosPrueba();
         octree.Visitar(visitor);
 
         int cantidadDeNodos = visitor.CantidadDeNodos;
 
-        Assert.AreEqual(1, cantidadDeNodos);
+        Assert.AreEqual(0, cantidadDeNodos);
     }
 
     [Test]
@@ -226,9 +225,8 @@ public class OctreeTest
         octree.Visitar(visitor);
 
         List<VisitanteValoresDeLosNodosPrueba.DatosPrueba> datos = visitor.Datos;
-        Assert.AreEqual(1, datos.Count);
-
         PuntoPrueba valorDelArbol = datos[0].Valor;
+
         Assert.AreEqual(default(PuntoPrueba), valorDelArbol);
     }
 }

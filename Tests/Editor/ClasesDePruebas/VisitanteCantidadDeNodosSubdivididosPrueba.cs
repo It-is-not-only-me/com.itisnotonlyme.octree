@@ -1,6 +1,6 @@
 ﻿using ItIsNotOnlyMe.OctreeHeap;
 
-public class VisitanteCantidadDeNodosPrueba : IVisitor<PuntoPrueba>
+public class VisitanteCantidadDeNodosSubdivididosPrueba : IVisitor<PuntoPrueba>
 {
     public int CantidadDeNodos => _cantidadDeNodos;
 
