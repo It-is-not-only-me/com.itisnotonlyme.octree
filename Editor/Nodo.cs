@@ -5,32 +5,33 @@ namespace ItIsNotOnlyMe.OctreeHeap
 {
     public struct Nodo<TType> where TType : IComparable
     {
-        private const int _cantidadHijos = 8;
+        private const int _cantidadHijos = 8, _estaJunto = 0, _estaSubdividido = 1;
 
-        private Vector3 _posicion, _extremoOpuesto;
-        private float _ancho, _alto, _profundiad;
+        private Vector3 _posicion, _dimensiones;
         private int _subdivido;
 
         private TType _valor;
 
-        public Nodo(Vector3 posicion, float ancho, float alto, float profundidad, TType valor = default(TType))
+        public Nodo(Vector3 posicion, Vector3 dimensiones, TType valor = default(TType))
         {
             _posicion = posicion;
-            _extremoOpuesto = posicion + new Vector3(profundidad, alto, ancho);
 
-            _ancho = ancho;
-            _alto = alto;
-            _profundiad = profundidad;
-            _subdivido = 0;
+            _dimensiones = dimensiones;
+            _subdivido = _estaJunto;
 
             _valor = valor;
         }
+
+        public TType Valor => _valor;
+        public bool EstaSubdividido => _subdivido == _estaSubdividido;
+
+        private Vector3 ExtremoOpuesto => _posicion + _dimensiones;
 
         public bool Contiene(Vector3 posicion)
         {
             bool contiene = true;
             for (int i = 0; i < 3; i++)
-                contiene &= _posicion[i] < posicion[i] && posicion[i] < _extremoOpuesto[i];
+                contiene &= _posicion[i] < posicion[i] && posicion[i] < ExtremoOpuesto[i];
             return contiene;
         }
 
@@ -59,12 +60,12 @@ namespace ItIsNotOnlyMe.OctreeHeap
 
         public void SeSubdivide()
         {
-            _subdivido = 1;
+            _subdivido = _estaSubdividido;
         }
 
         public void SeJunta()
         {
-            _subdivido = 0;
+            _subdivido = _estaJunto;
         }
 
         private int[] IndicesDeHijos(int indice)

@@ -10,28 +10,28 @@ namespace ItIsNotOnlyMe.OctreeHeap
         private const int _cantidadHijos = 8;
 
         private readonly Nodo<TType>[] _nodos;
-        private readonly int _profundidadNodos;
+        private readonly int _profundidad;
 
-        public Octree(Vector3 posicion, float ancho, float alto, float profundidad, int profundidadNodos)
+        public Octree(Vector3 posicion, Vector3 dimensiones, int profundidad)
         {
-            _profundidadNodos = profundidadNodos;
+            _profundidad = profundidad;
 
             int cantidadDeNodos = 0;
-            for (int i = 0; i < _profundidadNodos; i++)
+            for (int i = 0; i < _profundidad; i++)
                 cantidadDeNodos += (int)Mathf.Pow(_cantidadHijos, i);
 
             _nodos = new Nodo<TType>[cantidadDeNodos];
-            InicializarNodos(posicion, ancho, alto, profundidad, 0);
+            InicializarNodos(posicion, dimensiones, 0, 0);
         }
 
-        private void InicializarNodos(Vector3 posicion, float ancho, float alto, float profundidad, int profundidadActual)
+        private void InicializarNodos(Vector3 posicion, Vector3 dimensiones, int profundidadActual, int indice)
         {
-            if (profundidadActual > _profundidadNodos)
+            if (profundidadActual > _profundidad)
                 return;
 
             int indiceActual = 0;
             int cantidadDeHijos = 1;
-            int cantidadDeHijosPorEje = (int)Mathf.Pow(2, profundidad);
+            int cantidadDeHijosPorEje = (int)Mathf.Pow(2, profundidadActual);
 
             for (int i = 0; i < profundidadActual; i++)
             {
@@ -39,35 +39,46 @@ namespace ItIsNotOnlyMe.OctreeHeap
                 cantidadDeHijos *= _cantidadHijos;
             }
 
-            for (int i = 0, contador = indiceActual; i < cantidadDeHijosPorEje; i++)
+            for (int i = 0; i < cantidadDeHijosPorEje; i++)
                 for (int j = 0; j < cantidadDeHijosPorEje; j++)
-                    for (int k = 0; k < cantidadDeHijosPorEje; k++, contador++)
+                    for (int k = 0; k < cantidadDeHijosPorEje; k++)
                     {
-                        Vector3 posicionActual = posicion + new Vector3(i * ancho, j * alto, k * profundidad);
-                        _nodos[contador] = new Nodo<TType>(posicionActual, ancho, alto, profundidad);
+                        Vector3 posicionActual = new Vector3(
+                            posicion.x + dimensiones.x * i,
+                            posicion.y + dimensiones.y * j,
+                            posicion.z + dimensiones.z * k
+                        );
+
+                        _nodos[indice++] = new Nodo<TType>(posicionActual, dimensiones);
                     }
 
-            InicializarNodos(posicion, ancho / 2, alto / 2, profundidad / 2, profundidadActual + 1);
+            InicializarNodos(posicion, dimensiones / 2, profundidadActual + 1, indice);
         }
 
-        public bool Insertar(TType valor, Vector3 posicion)
+        public bool Insertar(Vector3 posicion, TType valor)
         {
-            return Insertar(valor, posicion, 0, 0);
+            return Insertar(posicion, valor, 0, 0);
         }
 
-        private bool Insertar(TType valor, Vector3 posicion, int indice, int profundiadActual)
+        public void Visitar(IVisitor<TType> visitor)
+        {
+            foreach (Nodo<TType> nodo in _nodos)
+                visitor.Visitar(nodo);
+        }
+
+        private bool Insertar(Vector3 posicion, TType valor, int indice, int profundiadActual)
         {
             if (!_nodos[indice].Contiene(posicion))
                 return false;
 
-            if (profundiadActual == _profundidadNodos)
+            if (profundiadActual == _profundidad)
             {
                 _nodos[indice].Insertar(valor);
                 return true;
             }
 
             int nuevoIndice = _nodos[indice].PosicionHijo(posicion, _nodos, indice);
-            bool resultado = Insertar(valor, posicion, nuevoIndice, profundiadActual + 1);
+            bool resultado = Insertar(posicion, valor, nuevoIndice, profundiadActual + 1);
             _nodos[indice].SeSubdivide();
 
             if (_nodos[indice].TieneHijosIguales(valor, _nodos, indice))
@@ -79,9 +90,9 @@ namespace ItIsNotOnlyMe.OctreeHeap
             return resultado;
         }
 
-        public bool SeElimina(Vector3 posicion)
+        public bool Eliminar(Vector3 posicion)
         {
-            return Insertar(default(TType), posicion);
+            return Insertar(posicion, default(TType));
         }
     }
 }
