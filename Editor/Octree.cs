@@ -71,15 +71,20 @@ namespace ItIsNotOnlyMe.OctreeHeap
             if (!_nodos[indice].Contiene(posicion))
                 return false;
 
-            if (profundiadActual == _profundidad)
+            if (profundiadActual >= _profundidad)
             {
                 _nodos[indice].Insertar(valor);
                 return true;
             }
 
-            int nuevoIndice = _nodos[indice].PosicionHijo(posicion, _nodos, indice);
-            bool resultado = Insertar(posicion, valor, nuevoIndice, profundiadActual + 1);
-            _nodos[indice].SeSubdivide();
+            if (!_nodos[indice].EstaSubdividido || !_nodos[indice].TieneHijosIguales(valor, _nodos, indice))
+            {
+                if (!_nodos[indice].EstaSubdividido)
+                    _nodos[indice].Subdividir();
+
+                int nuevoIndice = _nodos[indice].PosicionHijo(posicion, _nodos, indice);
+                Insertar(posicion, valor, nuevoIndice, profundiadActual + 1);
+            }
 
             if (_nodos[indice].TieneHijosIguales(valor, _nodos, indice))
             {
@@ -87,7 +92,7 @@ namespace ItIsNotOnlyMe.OctreeHeap
                 _nodos[indice].SeJunta();
             }
 
-            return resultado;
+            return true;
         }
 
         public bool Eliminar(Vector3 posicion)

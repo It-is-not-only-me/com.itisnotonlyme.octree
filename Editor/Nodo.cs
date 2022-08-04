@@ -3,26 +3,25 @@ using UnityEngine;
 
 namespace ItIsNotOnlyMe.OctreeHeap
 {
-    public struct Nodo<TType> where TType : IComparable
+    public struct Nodo<TTipo> where TTipo : IComparable
     {
         private const int _cantidadHijos = 8, _estaJunto = 0, _estaSubdividido = 1;
 
         private Vector3 _posicion, _dimensiones;
         private int _subdivido;
 
-        private TType _valor;
+        private TTipo _valor;
 
-        public Nodo(Vector3 posicion, Vector3 dimensiones, TType valor = default(TType))
+        public Nodo(Vector3 posicion, Vector3 dimensiones, TTipo valor = default(TTipo))
         {
             _posicion = posicion;
-
             _dimensiones = dimensiones;
             _subdivido = _estaJunto;
 
             _valor = valor;
         }
 
-        public TType Valor => _valor;
+        public TTipo Valor => _valor;
         public bool EstaSubdividido => _subdivido == _estaSubdividido;
 
         private Vector3 ExtremoOpuesto => _posicion + _dimensiones;
@@ -35,12 +34,12 @@ namespace ItIsNotOnlyMe.OctreeHeap
             return contiene;
         }
 
-        public void Insertar(TType valor)
+        public void Insertar(TTipo valor)
         {
             _valor = valor;
         }
 
-        public int PosicionHijo(Vector3 posicion, Nodo<TType>[] nodos, int indice)
+        public int PosicionHijo(Vector3 posicion, Nodo<TTipo>[] nodos, int indice)
         {
             int indiceHijo = 0;
             foreach (int indiceActual in IndicesDeHijos(indice))
@@ -50,15 +49,26 @@ namespace ItIsNotOnlyMe.OctreeHeap
             return indiceHijo;
         }
 
-        public bool TieneHijosIguales(TType valor, Nodo<TType>[] nodos, int indice) 
+        public bool TieneHijosIguales(TTipo valor, Nodo<TTipo>[] nodos, int indice) 
         {
             bool tieneHijosIguales = true;
             foreach (int indiceActual in IndicesDeHijos(indice))
-                tieneHijosIguales &= valor.Equals(nodos[indiceActual]._valor);
+                tieneHijosIguales &= nodos[indiceActual].TieneMismoValor(valor);
             return tieneHijosIguales;
         }
 
-        public void SeSubdivide()
+        private bool TieneMismoValor(TTipo valor)
+        {
+            if (EstaSubdividido)
+                return false;
+
+            if (_valor == null)
+                return valor == null;
+
+            return _valor.CompareTo(valor) == 0;
+        }
+
+        public void Subdividir()
         {
             _subdivido = _estaSubdividido;
         }
