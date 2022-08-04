@@ -29,8 +29,6 @@ namespace ItIsNotOnlyMe.OctreeHeap
             if (profundidadActual > _profundidad)
                 return;
 
-            // algo de los indices esta mal, o la cnatidad de nodos esta mal
-
             int indiceActual = 0;
             int cantidadDeHijos = 1;
             int cantidadDeHijosPorEje = (int)Mathf.Pow(2, profundidadActual);
